@@ -39,7 +39,7 @@
   <actions>
     <!-- Add your actions here -->
       <group id="MyPlugin.SampleMenu" text="_Sample Menu" description="Sample menu">
-          <add-to-group group-id="MainMenu" anchor="last"  />
+          <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="AddFrameworkSupport"/>
           <action id="Myplugin.Textboxes" class="com.morcinek.android.codegenerator.plugin.actions.TextBoxes" text="Text _Boxes" description="A test menu item" />
           <!--<action id="Myplugin.Dialogs" class="Mypackage.MyShowDialog" text="Show _Dialog" description="A test menu item" />-->
       </group>
