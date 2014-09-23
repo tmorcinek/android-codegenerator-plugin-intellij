@@ -8,12 +8,12 @@ import com.intellij.openapi.vfs.VirtualFile;
 /**
  * Copyright 2014 Tomasz Morcinek. All rights reserved.
  */
-public class TextBoxes extends AnAction {
+public class LayoutAction extends AnAction {
 
     // If you register the action from Java code, this constructor is used to set the menu item name
     // (optionally, you can specify the menu description and an icon to display next to the menu item).
     // You can omit this constructor when registering the action in the plugin.xml file.
-    public TextBoxes() {
+    public LayoutAction() {
         // Set the menu item name.
         super("Text _Boxes");
         // Set the menu item name, description and icon.
