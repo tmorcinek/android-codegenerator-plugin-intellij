@@ -5,7 +5,6 @@ target
 out
 
 # intelij files
-*.iml
 /.idea
 /.idea/*
 
