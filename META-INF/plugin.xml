@@ -53,6 +53,10 @@
                         class="com.morcinek.android.codegenerator.plugin.actions.FragmentAction"
                         text="Fragment" description="Generate Fragment Code">
                 </action>
+                <action id="CodeGenerationPlugin.MenuAction"
+                        class="com.morcinek.android.codegenerator.plugin.actions.MenuAction"
+                        text="Menu" description="Generate Menu Code">
+                </action>
             </group>
             <separator/>
             <add-to-group group-id="ProjectViewPopupMenu" anchor="after"
