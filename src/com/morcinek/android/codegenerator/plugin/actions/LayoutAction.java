@@ -29,6 +29,9 @@ import java.io.IOException;
  */
 public class LayoutAction extends AnAction {
 
+    public static final String PACKAGE_LABEL = "Package";
+    public static final String SOURCE_PATH_LABEL = "Source Path";
+
     private final ErrorHandler errorHandler = new ErrorHandler();
 
     private final PackageHelper packageHelper = new PackageHelper();
@@ -37,15 +40,15 @@ public class LayoutAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent event) {
-        Project project = event.getData(PlatformDataKeys.PROJECT);
+        final Project project = event.getData(PlatformDataKeys.PROJECT);
         VirtualFile selectedFile = event.getData(PlatformDataKeys.VIRTUAL_FILE);
         try {
             PackageHelper packageHelper = new PackageHelper();
             String produceCode = getGeneratedCode(selectedFile);
             final CodeDialogBuilder codeDialogBuilder = new CodeDialogBuilder(project,
                     String.format("Code generated from: '%s'", selectedFile.getName()), produceCode);
-            codeDialogBuilder.addTextSection("Source Path", "src");
-            codeDialogBuilder.addTextSection("Package", packageHelper.getPackageName(project));
+            codeDialogBuilder.addTextSection(SOURCE_PATH_LABEL, "src");
+            codeDialogBuilder.addTextSection(PACKAGE_LABEL, packageHelper.getPackageName(project));
             codeDialogBuilder.addAction("Copy Code To Clipboard", new Runnable() {
                 @Override
                 public void run() {
@@ -65,7 +68,7 @@ public class LayoutAction extends AnAction {
     }
 
     private String getFinalCode(CodeDialogBuilder codeDialogBuilder) {
-        return pathHelper.getMergedCodeWithPackage(codeDialogBuilder.getValueForLabel("Package"), codeDialogBuilder.getModifiedCode());
+        return pathHelper.getMergedCodeWithPackage(codeDialogBuilder.getValueForLabel(PACKAGE_LABEL), codeDialogBuilder.getModifiedCode());
     }
 
     private String getGeneratedCode(VirtualFile file) throws ParserConfigurationException, SAXException, XPathExpressionException, IOException {
