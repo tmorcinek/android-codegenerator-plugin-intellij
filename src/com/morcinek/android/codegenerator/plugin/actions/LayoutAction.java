@@ -2,26 +2,16 @@ package com.morcinek.android.codegenerator.plugin.actions;
 
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.DialogBuilder;
-import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.ui.components.JBTextField;
 import com.morcinek.android.codegenerator.CodeGenerator;
 import com.morcinek.android.codegenerator.codegeneration.providers.factories.ActivityResourceProvidersFactory;
 import com.morcinek.android.codegenerator.plugin.error.ErrorHandler;
 import com.morcinek.android.codegenerator.plugin.ui.CodeDialogBuilder;
-import com.morcinek.android.codegenerator.plugin.utils.ClipboardHelper;
-import com.morcinek.android.codegenerator.plugin.utils.CodeGeneratorFactory;
-import com.morcinek.android.codegenerator.plugin.utils.PackageHelper;
-import com.morcinek.android.codegenerator.plugin.utils.PathHelper;
+import com.morcinek.android.codegenerator.plugin.utils.*;
 import org.xml.sax.SAXException;
 
-import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 /**
@@ -36,12 +26,14 @@ public class LayoutAction extends AnAction {
 
     private final PackageHelper packageHelper = new PackageHelper();
 
+    private final ProjectHelper projectHelper = new ProjectHelper();
+
     private final PathHelper pathHelper = new PathHelper();
 
     @Override
     public void actionPerformed(AnActionEvent event) {
         final Project project = event.getData(PlatformDataKeys.PROJECT);
-        VirtualFile selectedFile = event.getData(PlatformDataKeys.VIRTUAL_FILE);
+        final VirtualFile selectedFile = event.getData(PlatformDataKeys.VIRTUAL_FILE);
         try {
             PackageHelper packageHelper = new PackageHelper();
             String produceCode = getGeneratedCode(selectedFile);
@@ -58,17 +50,31 @@ public class LayoutAction extends AnAction {
             codeDialogBuilder.addAction("Create File", new Runnable() {
                 @Override
                 public void run() {
-                    //TODO implement
+                    try {
+                        String folderPath = getFolderPath(codeDialogBuilder);
+                        String fileName = pathHelper.getFileName(selectedFile.getName(), "Activity");
+                        projectHelper.createFileWithGeneratedCode(project, fileName, folderPath, getFinalCode(codeDialogBuilder));
+                    } catch (IOException exception) {
+                        errorHandler.handleError(project, exception);
+                    }
                 }
-            });
+            }, true);
             codeDialogBuilder.showDialog();
         } catch (Exception exception) {
             errorHandler.handleError(project, exception);
         }
     }
 
+    private String getFolderPath(CodeDialogBuilder codeDialogBuilder) {
+        String sourcePath = codeDialogBuilder.getValueForLabel(SOURCE_PATH_LABEL);
+        String packageName = codeDialogBuilder.getValueForLabel(PACKAGE_LABEL);
+        return pathHelper.getFolderPath(sourcePath, packageName);
+    }
+
     private String getFinalCode(CodeDialogBuilder codeDialogBuilder) {
-        return pathHelper.getMergedCodeWithPackage(codeDialogBuilder.getValueForLabel(PACKAGE_LABEL), codeDialogBuilder.getModifiedCode());
+        String packageName = codeDialogBuilder.getValueForLabel(PACKAGE_LABEL);
+        String modifiedCode = codeDialogBuilder.getModifiedCode();
+        return pathHelper.getMergedCodeWithPackage(packageName, modifiedCode);
     }
 
     private String getGeneratedCode(VirtualFile file) throws ParserConfigurationException, SAXException, XPathExpressionException, IOException {

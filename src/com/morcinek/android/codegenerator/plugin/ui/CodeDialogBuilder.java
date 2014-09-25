@@ -1,6 +1,7 @@
 package com.morcinek.android.codegenerator.plugin.ui;
 
 import com.google.common.collect.Maps;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogBuilder;
 import com.intellij.openapi.ui.DialogWrapper;
@@ -41,10 +42,18 @@ public class CodeDialogBuilder {
     }
 
     public void addAction(String title, final Runnable action) {
+        addAction(title, action, false);
+    }
+
+    public void addAction(String title, final Runnable action, final boolean runWriteAction) {
         dialogBuilder.addAction(new AbstractAction(title) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                action.run();
+                if (runWriteAction) {
+                    ApplicationManager.getApplication().runWriteAction(action);
+                } else {
+                    action.run();
+                }
                 dialogBuilder.getDialogWrapper().close(DialogWrapper.OK_EXIT_CODE);
             }
         });
@@ -62,7 +71,7 @@ public class CodeDialogBuilder {
     }
 
     public String getValueForLabel(String key) {
-        return textFieldMap.get(key).getText();
+        return textFieldMap.get(key).getText().trim();
     }
 
     public String getModifiedCode() {
