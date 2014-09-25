@@ -19,7 +19,7 @@ public class PackageHelper {
         try {
             for (String path : possiblePaths()) {
                 VirtualFile file = getManifestFileFromPath(project, path);
-                if (file.exists()) {
+                if (file != null && file.exists()) {
                     return packageExtractor.extractPackageFromManifestStream(file.getInputStream());
                 }
             }

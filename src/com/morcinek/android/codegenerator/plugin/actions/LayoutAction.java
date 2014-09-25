@@ -9,6 +9,8 @@ import com.intellij.ui.components.JBTextField;
 import com.morcinek.android.codegenerator.CodeGenerator;
 import com.morcinek.android.codegenerator.codegeneration.providers.factories.ActivityResourceProvidersFactory;
 import com.morcinek.android.codegenerator.plugin.error.ErrorHandler;
+import com.morcinek.android.codegenerator.plugin.ui.CodeDialogBuilder;
+import com.morcinek.android.codegenerator.plugin.utils.ClipboardHelper;
 import com.morcinek.android.codegenerator.plugin.utils.CodeGeneratorFactory;
 import com.morcinek.android.codegenerator.plugin.utils.PackageHelper;
 import com.morcinek.android.codegenerator.plugin.utils.PathHelper;
@@ -39,54 +41,31 @@ public class LayoutAction extends AnAction {
         VirtualFile selectedFile = event.getData(PlatformDataKeys.VIRTUAL_FILE);
         try {
             PackageHelper packageHelper = new PackageHelper();
-            String packageName = packageHelper.getPackageName(project);
-
-            String produceCode = getGeneratedCode(selectedFile.getCanonicalFile());
-            final DialogBuilder dialogBuilder = new DialogBuilder(project);
-            dialogBuilder.setTitle(String.format("Code generated from: '%s'", selectedFile.getName()));
-            JTextArea codeArea = new JTextArea(produceCode);
-            codeArea.setBorder(new LineBorder(Color.gray));
-            JPanel centerPanel = new JPanel(new BorderLayout());
-            JPanel topPanel = new JPanel(new GridLayout(0, 2));
-            JBTextField pathTextField = addTextSection(topPanel, "Source Path", "src");
-            JBTextField packageTextField = addTextSection(topPanel, "Package", "com.morcinek.test");
-
-
-            centerPanel.add(topPanel, BorderLayout.PAGE_START);
-            centerPanel.add(codeArea, BorderLayout.CENTER);
-            dialogBuilder.setCenterPanel(centerPanel);
-            dialogBuilder.removeAllActions();
-            dialogBuilder.addAction(new AbstractAction("Copy Code To Clipboard") {
+            String produceCode = getGeneratedCode(selectedFile);
+            final CodeDialogBuilder codeDialogBuilder = new CodeDialogBuilder(project,
+                    String.format("Code generated from: '%s'", selectedFile.getName()), produceCode);
+            codeDialogBuilder.addTextSection("Source Path", "src");
+            codeDialogBuilder.addTextSection("Package", packageHelper.getPackageName(project));
+            codeDialogBuilder.addAction("Copy Code To Clipboard", new Runnable() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
-                    Object source = e.getSource();
-                    dialogBuilder.getDialogWrapper().close(DialogWrapper.OK_EXIT_CODE);
+                public void run() {
+                    ClipboardHelper.copy(getFinalCode(codeDialogBuilder));
                 }
             });
-            dialogBuilder.addAction( new AbstractAction("Create File") {
+            codeDialogBuilder.addAction("Create File", new Runnable() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
-
+                public void run() {
+                    //TODO implement
                 }
             });
-            int show = dialogBuilder.show();
+            codeDialogBuilder.showDialog();
         } catch (Exception exception) {
             errorHandler.handleError(project, exception);
         }
     }
 
-    private JBTextField addTextSection(JPanel topPanel, String label, String defaultText) {
-        GridBagConstraints labelConstraints = new GridBagConstraints();
-        labelConstraints.fill = GridBagConstraints.BOTH;
-        labelConstraints.weightx = 1;
-        topPanel.add(new JLabel(label), labelConstraints);
-        GridBagConstraints textFieldConstraints = new GridBagConstraints();
-        textFieldConstraints.fill = GridBagConstraints.BOTH;
-        textFieldConstraints.weightx = 3;
-//        textFieldConstraints.gridwidth =
-        JBTextField textField = new JBTextField(defaultText);
-        topPanel.add(textField, textFieldConstraints);
-        return textField;
+    private String getFinalCode(CodeDialogBuilder codeDialogBuilder) {
+        return pathHelper.getMergedCodeWithPackage(codeDialogBuilder.getValueForLabel("Package"), codeDialogBuilder.getModifiedCode());
     }
 
     private String getGeneratedCode(VirtualFile file) throws ParserConfigurationException, SAXException, XPathExpressionException, IOException {
