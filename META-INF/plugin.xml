@@ -41,9 +41,17 @@
             <separator/>
             <group id="CodeGenerationPlugin.GenerateAndroidCodeGroup" text="Generate Android Code"
                    class="com.morcinek.android.codegenerator.plugin.groups.GenerateAndroidCodeGroup" popup="true">
-                <action id="CodeGenerationPlugin.LayoutAction"
-                        class="com.morcinek.android.codegenerator.plugin.actions.LayoutAction"
-                        text="Layout" description="Generate Layout Code">
+                <action id="CodeGenerationPlugin.ActivityAction"
+                        class="com.morcinek.android.codegenerator.plugin.actions.ActivityAction"
+                        text="Activity" description="Generate Activity Code">
+                </action>
+                <action id="CodeGenerationPlugin.AdapterAction"
+                        class="com.morcinek.android.codegenerator.plugin.actions.AdapterAction"
+                        text="Adapter" description="Generate Adapter Code">
+                </action>
+                <action id="CodeGenerationPlugin.FragmentAction"
+                        class="com.morcinek.android.codegenerator.plugin.actions.FragmentAction"
+                        text="Fragment" description="Generate Fragment Code">
                 </action>
             </group>
             <separator/>

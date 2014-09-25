@@ -1,13 +1,19 @@
 package com.morcinek.android.codegenerator.plugin.actions;
 
-import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.morcinek.android.codegenerator.CodeGenerator;
-import com.morcinek.android.codegenerator.codegeneration.providers.factories.ActivityResourceProvidersFactory;
+import com.morcinek.android.codegenerator.plugin.actions.visibility.ActionVisibilityHelper;
 import com.morcinek.android.codegenerator.plugin.error.ErrorHandler;
 import com.morcinek.android.codegenerator.plugin.ui.CodeDialogBuilder;
-import com.morcinek.android.codegenerator.plugin.utils.*;
+import com.morcinek.android.codegenerator.plugin.ui.StringResources;
+import com.morcinek.android.codegenerator.plugin.utils.ClipboardHelper;
+import com.morcinek.android.codegenerator.plugin.utils.PackageHelper;
+import com.morcinek.android.codegenerator.plugin.utils.PathHelper;
+import com.morcinek.android.codegenerator.plugin.utils.ProjectHelper;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,10 +23,9 @@ import java.io.IOException;
 /**
  * Copyright 2014 Tomasz Morcinek. All rights reserved.
  */
-public class LayoutAction extends AnAction {
+public abstract class LayoutAction extends AnAction {
 
-    public static final String PACKAGE_LABEL = "Package";
-    public static final String SOURCE_PATH_LABEL = "Source Path";
+    private final ActionVisibilityHelper actionVisibilityHelper = new ActionVisibilityHelper("layout", "xml");
 
     private final ErrorHandler errorHandler = new ErrorHandler();
 
@@ -35,25 +40,25 @@ public class LayoutAction extends AnAction {
         final Project project = event.getData(PlatformDataKeys.PROJECT);
         final VirtualFile selectedFile = event.getData(PlatformDataKeys.VIRTUAL_FILE);
         try {
-            PackageHelper packageHelper = new PackageHelper();
-            String produceCode = getGeneratedCode(selectedFile);
+            String generatedCode = getGeneratedCode(selectedFile);
             final CodeDialogBuilder codeDialogBuilder = new CodeDialogBuilder(project,
-                    String.format("Code generated from: '%s'", selectedFile.getName()), produceCode);
-            codeDialogBuilder.addTextSection(SOURCE_PATH_LABEL, "src");
-            codeDialogBuilder.addTextSection(PACKAGE_LABEL, packageHelper.getPackageName(project));
-            codeDialogBuilder.addAction("Copy Code To Clipboard", new Runnable() {
+                    String.format(StringResources.TITLE_FORMAT_TEXT, selectedFile.getName()), generatedCode);
+            codeDialogBuilder.addTextSection(StringResources.SOURCE_PATH_LABEL, "src");
+            codeDialogBuilder.addTextSection(StringResources.PACKAGE_LABEL, packageHelper.getPackageName(project));
+            codeDialogBuilder.addAction(StringResources.COPY_ACTION_LABEL, new Runnable() {
                 @Override
                 public void run() {
                     ClipboardHelper.copy(getFinalCode(codeDialogBuilder));
                 }
             });
-            codeDialogBuilder.addAction("Create File", new Runnable() {
+            codeDialogBuilder.addAction(StringResources.CREATE_ACTION_LABEL, new Runnable() {
                 @Override
                 public void run() {
                     try {
                         String folderPath = getFolderPath(codeDialogBuilder);
-                        String fileName = pathHelper.getFileName(selectedFile.getName(), "Activity");
-                        projectHelper.createFileWithGeneratedCode(project, fileName, folderPath, getFinalCode(codeDialogBuilder));
+                        String fileName = pathHelper.getFileName(selectedFile.getName(), getResourceName());
+                        String finalCode = getFinalCode(codeDialogBuilder);
+                        projectHelper.createFileWithGeneratedCode(project, fileName, folderPath, finalCode);
                     } catch (IOException exception) {
                         errorHandler.handleError(project, exception);
                     }
@@ -65,14 +70,18 @@ public class LayoutAction extends AnAction {
         }
     }
 
+    protected abstract String getResourceName();
+
+    protected abstract CodeGenerator getCodeGenerator();
+
     private String getFolderPath(CodeDialogBuilder codeDialogBuilder) {
-        String sourcePath = codeDialogBuilder.getValueForLabel(SOURCE_PATH_LABEL);
-        String packageName = codeDialogBuilder.getValueForLabel(PACKAGE_LABEL);
+        String sourcePath = codeDialogBuilder.getValueForLabel(StringResources.SOURCE_PATH_LABEL);
+        String packageName = codeDialogBuilder.getValueForLabel(StringResources.PACKAGE_LABEL);
         return pathHelper.getFolderPath(sourcePath, packageName);
     }
 
     private String getFinalCode(CodeDialogBuilder codeDialogBuilder) {
-        String packageName = codeDialogBuilder.getValueForLabel(PACKAGE_LABEL);
+        String packageName = codeDialogBuilder.getValueForLabel(StringResources.PACKAGE_LABEL);
         String modifiedCode = codeDialogBuilder.getModifiedCode();
         return pathHelper.getMergedCodeWithPackage(packageName, modifiedCode);
     }
@@ -81,25 +90,8 @@ public class LayoutAction extends AnAction {
         return getCodeGenerator().produceCode(file.getInputStream(), file.getName());
     }
 
-    private CodeGenerator getCodeGenerator() {
-        return CodeGeneratorFactory.createCodeGenerator("Activity_template", new ActivityResourceProvidersFactory());
-    }
-
     @Override
     public void update(AnActionEvent event) {
-        event.getPresentation().setVisible(isVisible(event.getDataContext()));
-    }
-
-    private boolean isVisible(DataContext dataContext) {
-        VirtualFile data = CommonDataKeys.VIRTUAL_FILE.getData(dataContext);
-        return data != null && !data.isDirectory() && isXmlFile(data) && isInLayoutFolder(data);
-    }
-
-    private boolean isXmlFile(VirtualFile data) {
-        return data.getExtension() != null && data.getExtension().equals("xml");
-    }
-
-    private boolean isInLayoutFolder(VirtualFile data) {
-        return data.getParent().getPath().endsWith("layout");
+        event.getPresentation().setVisible(actionVisibilityHelper.isVisible(event.getDataContext()));
     }
 }
