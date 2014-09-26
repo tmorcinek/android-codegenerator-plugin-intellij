@@ -51,6 +51,7 @@
         <ul>
             <li>ISSUE #1: Editor should pops up when creating file.</li>
             <li>ISSUE #3: Source path should be saved in persistence store.</li>
+            <li>ISSUE #4: Generate Code Menu Options should be available through editor.</li>
         </ul>
     ]]>
     </change-notes>
@@ -100,6 +101,8 @@
             </group>
             <separator/>
             <add-to-group group-id="ProjectViewPopupMenu" anchor="after"
+                          relative-to-action="XmlGenerateToolsGroup"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="after"
                           relative-to-action="XmlGenerateToolsGroup"/>
         </group>
     </actions>
