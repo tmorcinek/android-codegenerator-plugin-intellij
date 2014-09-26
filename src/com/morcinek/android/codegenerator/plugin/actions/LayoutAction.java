@@ -58,7 +58,7 @@ public abstract class LayoutAction extends AnAction {
                         String folderPath = getFolderPath(codeDialogBuilder);
                         String fileName = pathHelper.getFileName(selectedFile.getName(), getResourceName());
                         String finalCode = getFinalCode(codeDialogBuilder);
-                        projectHelper.createFileWithGeneratedCode(project, fileName, folderPath, finalCode);
+                        projectHelper.createFileAndOpenInEditor(project, fileName, folderPath, finalCode);
                     } catch (IOException exception) {
                         errorHandler.handleError(project, exception);
                     }

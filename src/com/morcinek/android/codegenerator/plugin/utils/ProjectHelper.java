@@ -1,5 +1,6 @@
 package com.morcinek.android.codegenerator.plugin.utils;
 
+import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 
@@ -10,11 +11,16 @@ import java.io.IOException;
  */
 public class ProjectHelper {
 
-    public VirtualFile createFileWithGeneratedCode(Project project, String fileName, String folderPath, String code) throws IOException {
+    public VirtualFile createFileAndOpenInEditor(Project project, String fileName, String folderPath, String code) throws IOException {
         VirtualFile folder = createFolderIfNotExist(project, folderPath);
         VirtualFile createdFile = folder.createChildData(project, fileName);
         createdFile.setBinaryContent(code.getBytes());
+        openFileInEditor(project, createdFile);
         return createdFile;
+    }
+
+    private void openFileInEditor(Project project, VirtualFile fileWithGeneratedCode) {
+        FileEditorManager.getInstance(project).openFile(fileWithGeneratedCode, true);
     }
 
     private VirtualFile createFolderIfNotExist(Project project, String folder) throws IOException {

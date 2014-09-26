@@ -37,7 +37,7 @@
 
 
     <change-notes><![CDATA[
-        Version 1.0
+        <b>Version 1.0</b>
         <ul>
             <li>generating Activity Class code from layout</li>
             <li>generating Fragment Class code from layout</li>
@@ -46,6 +46,11 @@
             <li>creating files from code</li>
             <li>preview screen with generated code that can be modified before creation of file</li>
             <li>detection of project package</li>
+        </ul>
+
+        <b>Version 1.1</b>
+        <ul>
+            <li>ISSUE #1: Editor should pops up when creating file.</li>
         </ul>
     ]]>
     </change-notes>
