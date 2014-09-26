@@ -3,11 +3,14 @@ package com.morcinek.android.codegenerator.plugin.actions;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.morcinek.android.codegenerator.CodeGenerator;
 import com.morcinek.android.codegenerator.plugin.actions.visibility.ActionVisibilityHelper;
 import com.morcinek.android.codegenerator.plugin.error.ErrorHandler;
+import com.morcinek.android.codegenerator.plugin.persistence.Settings;
 import com.morcinek.android.codegenerator.plugin.ui.CodeDialogBuilder;
 import com.morcinek.android.codegenerator.plugin.ui.StringResources;
 import com.morcinek.android.codegenerator.plugin.utils.ClipboardHelper;
@@ -35,6 +38,8 @@ public abstract class LayoutAction extends AnAction {
 
     private final PathHelper pathHelper = new PathHelper();
 
+    private final Settings settings = ServiceManager.getService(Settings.class);
+
     @Override
     public void actionPerformed(AnActionEvent event) {
         final Project project = event.getData(PlatformDataKeys.PROJECT);
@@ -43,7 +48,7 @@ public abstract class LayoutAction extends AnAction {
             String generatedCode = getGeneratedCode(selectedFile);
             final CodeDialogBuilder codeDialogBuilder = new CodeDialogBuilder(project,
                     String.format(StringResources.TITLE_FORMAT_TEXT, selectedFile.getName()), generatedCode);
-            codeDialogBuilder.addTextSection(StringResources.SOURCE_PATH_LABEL, "src");
+            codeDialogBuilder.addTextSection(StringResources.SOURCE_PATH_LABEL, settings.getSourcePath());
             codeDialogBuilder.addTextSection(StringResources.PACKAGE_LABEL, packageHelper.getPackageName(project));
             codeDialogBuilder.addAction(StringResources.COPY_ACTION_LABEL, new Runnable() {
                 @Override
@@ -64,7 +69,9 @@ public abstract class LayoutAction extends AnAction {
                     }
                 }
             }, true);
-            codeDialogBuilder.showDialog();
+            if (codeDialogBuilder.showDialog() == DialogWrapper.OK_EXIT_CODE) {
+                settings.setSourcePath(codeDialogBuilder.getValueForLabel(StringResources.SOURCE_PATH_LABEL));
+            }
         } catch (Exception exception) {
             errorHandler.handleError(project, exception);
         }

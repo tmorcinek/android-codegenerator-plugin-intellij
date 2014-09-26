@@ -35,7 +35,6 @@
         <br/>
     ]]></description>
 
-
     <change-notes><![CDATA[
         <b>Version 1.0</b>
         <ul>
@@ -51,6 +50,7 @@
         <b>Version 1.1</b>
         <ul>
             <li>ISSUE #1: Editor should pops up when creating file.</li>
+            <li>ISSUE #3: Source path should be saved in persistence store.</li>
         </ul>
     ]]>
     </change-notes>
@@ -65,7 +65,7 @@
     -->
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <applicationService serviceImplementation="com.morcinek.android.codegenerator.plugin.persistence.Settings"/>
     </extensions>
 
     <application-components>
