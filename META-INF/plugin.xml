@@ -1,17 +1,52 @@
 <idea-plugin version="2">
-    <id>com.yourcompany.unique.plugin.id</id>
-    <name>Plugin display name here</name>
+    <id>com.morcinek.android.codegenerator.plugin.intellij</id>
+    <name>Android Code Generator Plugin</name>
     <version>1.0</version>
-    <vendor email="tomasz.morcinek@gmail.com" url="http://www.yourcompany.com">YourCompany</vendor>
+    <vendor email="tomasz.morcinek@gmail.com" url="http://morcinek.co.uk">Tomasz Morcinek</vendor>
 
     <description><![CDATA[
-      Enter short description for your plugin here.<br>
-      <em>most HTML tags may be used</em>
+        <h1>Android Code Generator Plugin</h1>
+        <br/>
+
+
+        Project on github <a href="https://github.com/tmorcinek/android-codegenerator-plugin-intellij">android-codegenerator-plugin-intellij</a>
+        <br/>
+        <br/>
+
+        Plugin parses xml file, and retrieves data about all the views that contain android:id attribute. <br/>
+        Plugin collects information about view's type and id. Based on that, plugin generates fields, assignment, imports and methods. <br/>
+
+        <h2>Features</h2>
+
+        <p>There are several very useful features some of them are:</p>
+
+        <ul>
+            <li>generating Activity Class code from layout</li>
+            <li>generating Fragment Class code from layout</li>
+            <li>generating Adapter Class code from item layout</li>
+            <li>generating Menu code from menu xml</li>
+            <li>creating files from code</li>
+            <li>preview screen with generated code that can be modified before creation of file</li>
+            <li>detection of project package</li>
+        </ul>
+
+        <i>Compiled with Java 1.6</i>
+        <br/>
+        <br/>
     ]]></description>
 
+
     <change-notes><![CDATA[
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>
+        Version 1.0
+        <ul>
+            <li>generating Activity Class code from layout</li>
+            <li>generating Fragment Class code from layout</li>
+            <li>generating Adapter Class code from item layout</li>
+            <li>generating Menu code from menu xml</li>
+            <li>creating files from code</li>
+            <li>preview screen with generated code that can be modified before creation of file</li>
+            <li>detection of project package</li>
+        </ul>
     ]]>
     </change-notes>
 

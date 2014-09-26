@@ -19,16 +19,20 @@ public class ActionVisibilityHelper {
     }
 
     public boolean isVisible(DataContext dataContext) {
-        VirtualFile data = CommonDataKeys.VIRTUAL_FILE.getData(dataContext);
-        return data != null && !data.isDirectory() && isXmlFile(data) && isInLayoutFolder(data);
+        VirtualFile[] files = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(dataContext);
+        if (files != null && files.length == 1) {
+            VirtualFile file = files[0];
+            return !file.isDirectory() && hasCorrectExtension(file) && hasCorrectFolder(file);
+        } else {
+            return false;
+        }
     }
 
-    private boolean isXmlFile(VirtualFile data) {
+    private boolean hasCorrectExtension(VirtualFile data) {
         return data.getExtension() != null && data.getExtension().equals(extension);
     }
 
-    private boolean isInLayoutFolder(VirtualFile data) {
-        return data.getParent().getPath().endsWith(folder);
+    private boolean hasCorrectFolder(VirtualFile data) {
+        return data.getParent().getName().equals(folder);
     }
-
 }
