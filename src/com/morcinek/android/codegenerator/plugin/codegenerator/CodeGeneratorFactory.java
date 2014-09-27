@@ -1,4 +1,4 @@
-package com.morcinek.android.codegenerator.plugin.utils;
+package com.morcinek.android.codegenerator.plugin.codegenerator;
 
 import com.google.common.io.Resources;
 import com.morcinek.android.codegenerator.CodeGenerator;

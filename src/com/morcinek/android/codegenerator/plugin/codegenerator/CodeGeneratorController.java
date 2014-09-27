@@ -6,7 +6,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.morcinek.android.codegenerator.CodeGenerator;
 import com.morcinek.android.codegenerator.codegeneration.providers.ResourceProvidersFactory;
-import com.morcinek.android.codegenerator.plugin.utils.CodeGeneratorFactory;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;

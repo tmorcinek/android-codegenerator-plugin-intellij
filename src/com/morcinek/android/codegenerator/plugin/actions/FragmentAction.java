@@ -2,7 +2,7 @@ package com.morcinek.android.codegenerator.plugin.actions;
 
 import com.morcinek.android.codegenerator.CodeGenerator;
 import com.morcinek.android.codegenerator.codegeneration.providers.factories.FragmentResourceProvidersFactory;
-import com.morcinek.android.codegenerator.plugin.utils.CodeGeneratorFactory;
+import com.morcinek.android.codegenerator.plugin.codegenerator.CodeGeneratorFactory;
 
 /**
  * Copyright 2014 Tomasz Morcinek. All rights reserved.
