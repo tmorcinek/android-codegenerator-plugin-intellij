@@ -1,7 +1,15 @@
-android-codegenerator-plugin-intellij
-=====================================
+Android Studio/IntelliJ IDEA Plugin for Android code generation
+================
 
-Intellij Plugin for Android code generation.
+Plugin for generation of Android code from XML files (layouts, menus).
+
+More information will be available soon.
+
+
+Download
+-------
+
+All available versions of plugin are in [downloads](https://github.com/tmorcinek/android-codegenerator-plugin-intellij/tree/master/plugins)
 
 
 License
