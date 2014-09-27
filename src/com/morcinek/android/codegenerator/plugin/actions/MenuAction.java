@@ -5,19 +5,13 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.morcinek.android.codegenerator.CodeGenerator;
 import com.morcinek.android.codegenerator.codegeneration.providers.factories.MenuResourceProvidersFactory;
 import com.morcinek.android.codegenerator.plugin.actions.visibility.ActionVisibilityHelper;
+import com.morcinek.android.codegenerator.plugin.codegenerator.CodeGeneratorController;
 import com.morcinek.android.codegenerator.plugin.error.ErrorHandler;
 import com.morcinek.android.codegenerator.plugin.ui.CodeDialogBuilder;
 import com.morcinek.android.codegenerator.plugin.ui.StringResources;
 import com.morcinek.android.codegenerator.plugin.utils.ClipboardHelper;
-import com.morcinek.android.codegenerator.plugin.utils.CodeGeneratorFactory;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-import java.io.IOException;
 
 /**
  * Copyright 2014 Tomasz Morcinek. All rights reserved.
@@ -33,7 +27,8 @@ public class MenuAction extends AnAction {
         final Project project = event.getData(PlatformDataKeys.PROJECT);
         final VirtualFile selectedFile = event.getData(PlatformDataKeys.VIRTUAL_FILE);
         try {
-            String generatedCode = getGeneratedCode(selectedFile);
+            CodeGeneratorController codeGeneratorController = new CodeGeneratorController("Menu_template", new MenuResourceProvidersFactory());
+            String generatedCode = codeGeneratorController.generateCode(project, selectedFile, event.getData(PlatformDataKeys.EDITOR));
             final CodeDialogBuilder codeDialogBuilder = new CodeDialogBuilder(project,
                     String.format(StringResources.TITLE_FORMAT_TEXT, selectedFile.getName()), generatedCode);
             codeDialogBuilder.addAction(StringResources.COPY_ACTION_LABEL, new Runnable() {
@@ -46,14 +41,6 @@ public class MenuAction extends AnAction {
         } catch (Exception exception) {
             errorHandler.handleError(project, exception);
         }
-    }
-
-    private String getGeneratedCode(VirtualFile file) throws ParserConfigurationException, SAXException, XPathExpressionException, IOException {
-        return getCodeGenerator().produceCode(file.getInputStream(), file.getName());
-    }
-
-    private CodeGenerator getCodeGenerator() {
-        return CodeGeneratorFactory.createCodeGenerator("Menu_template", new MenuResourceProvidersFactory());
     }
 
     @Override
