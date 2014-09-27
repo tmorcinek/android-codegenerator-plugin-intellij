@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>com.morcinek.android.codegenerator.plugin.intellij</id>
     <name>Android Code Generator Plugin</name>
-    <version>1.0</version>
+    <version>1.1</version>
     <vendor email="tomasz.morcinek@gmail.com" url="http://morcinek.co.uk">Tomasz Morcinek</vendor>
 
     <description><![CDATA[
