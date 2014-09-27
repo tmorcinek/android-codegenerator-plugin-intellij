@@ -1,8 +1,7 @@
 package com.morcinek.android.codegenerator.plugin.actions;
 
-import com.morcinek.android.codegenerator.CodeGenerator;
+import com.morcinek.android.codegenerator.codegeneration.providers.ResourceProvidersFactory;
 import com.morcinek.android.codegenerator.codegeneration.providers.factories.FragmentResourceProvidersFactory;
-import com.morcinek.android.codegenerator.plugin.codegenerator.CodeGeneratorFactory;
 
 /**
  * Copyright 2014 Tomasz Morcinek. All rights reserved.
@@ -15,7 +14,12 @@ public class FragmentAction extends LayoutAction {
     }
 
     @Override
-    protected CodeGenerator getCodeGenerator() {
-        return CodeGeneratorFactory.createCodeGenerator("Fragment_template", new FragmentResourceProvidersFactory());
+    protected String getTemplateName() {
+        return "Fragment_template";
+    }
+
+    @Override
+    protected ResourceProvidersFactory getResourceProvidersFactory() {
+        return new FragmentResourceProvidersFactory();
     }
 }

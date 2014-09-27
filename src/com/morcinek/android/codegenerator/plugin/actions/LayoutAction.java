@@ -7,8 +7,9 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.morcinek.android.codegenerator.CodeGenerator;
+import com.morcinek.android.codegenerator.codegeneration.providers.ResourceProvidersFactory;
 import com.morcinek.android.codegenerator.plugin.actions.visibility.ActionVisibilityHelper;
+import com.morcinek.android.codegenerator.plugin.codegenerator.CodeGeneratorController;
 import com.morcinek.android.codegenerator.plugin.error.ErrorHandler;
 import com.morcinek.android.codegenerator.plugin.persistence.Settings;
 import com.morcinek.android.codegenerator.plugin.ui.CodeDialogBuilder;
@@ -17,10 +18,7 @@ import com.morcinek.android.codegenerator.plugin.utils.ClipboardHelper;
 import com.morcinek.android.codegenerator.plugin.utils.PackageHelper;
 import com.morcinek.android.codegenerator.plugin.utils.PathHelper;
 import com.morcinek.android.codegenerator.plugin.utils.ProjectHelper;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
 
 /**
@@ -45,7 +43,8 @@ public abstract class LayoutAction extends AnAction {
         final Project project = event.getData(PlatformDataKeys.PROJECT);
         final VirtualFile selectedFile = event.getData(PlatformDataKeys.VIRTUAL_FILE);
         try {
-            String generatedCode = getGeneratedCode(selectedFile);
+            CodeGeneratorController codeGeneratorController = new CodeGeneratorController(getTemplateName(), getResourceProvidersFactory());
+            String generatedCode = codeGeneratorController.generateCode(project, selectedFile, event.getData(PlatformDataKeys.EDITOR));
             final CodeDialogBuilder codeDialogBuilder = new CodeDialogBuilder(project,
                     String.format(StringResources.TITLE_FORMAT_TEXT, selectedFile.getName()), generatedCode);
             codeDialogBuilder.addTextSection(StringResources.SOURCE_PATH_LABEL, settings.getSourcePath());
@@ -79,7 +78,9 @@ public abstract class LayoutAction extends AnAction {
 
     protected abstract String getResourceName();
 
-    protected abstract CodeGenerator getCodeGenerator();
+    protected abstract String getTemplateName();
+
+    protected abstract ResourceProvidersFactory getResourceProvidersFactory();
 
     private String getFolderPath(CodeDialogBuilder codeDialogBuilder) {
         String sourcePath = codeDialogBuilder.getValueForLabel(StringResources.SOURCE_PATH_LABEL);
@@ -91,10 +92,6 @@ public abstract class LayoutAction extends AnAction {
         String packageName = codeDialogBuilder.getValueForLabel(StringResources.PACKAGE_LABEL);
         String modifiedCode = codeDialogBuilder.getModifiedCode();
         return pathHelper.getMergedCodeWithPackage(packageName, modifiedCode);
-    }
-
-    private String getGeneratedCode(VirtualFile file) throws ParserConfigurationException, SAXException, XPathExpressionException, IOException {
-        return getCodeGenerator().produceCode(file.getInputStream(), file.getName());
     }
 
     @Override

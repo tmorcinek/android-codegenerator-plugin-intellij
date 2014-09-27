@@ -1,8 +1,7 @@
 package com.morcinek.android.codegenerator.plugin.actions;
 
-import com.morcinek.android.codegenerator.CodeGenerator;
+import com.morcinek.android.codegenerator.codegeneration.providers.ResourceProvidersFactory;
 import com.morcinek.android.codegenerator.codegeneration.providers.factories.AdapterResourceProvidersFactory;
-import com.morcinek.android.codegenerator.plugin.codegenerator.CodeGeneratorFactory;
 
 /**
  * Copyright 2014 Tomasz Morcinek. All rights reserved.
@@ -15,7 +14,12 @@ public class AdapterAction extends LayoutAction {
     }
 
     @Override
-    protected CodeGenerator getCodeGenerator() {
-        return CodeGeneratorFactory.createCodeGenerator("Adapter_template", new AdapterResourceProvidersFactory());
+    protected String getTemplateName() {
+        return "Adapter_template";
+    }
+
+    @Override
+    protected ResourceProvidersFactory getResourceProvidersFactory() {
+        return new AdapterResourceProvidersFactory();
     }
 }
