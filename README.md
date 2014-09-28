@@ -14,8 +14,9 @@ All available versions of plugin are in [releases](https://github.com/tmorcinek/
 
 Installation
 -------
-You can download zip file from [releases](https://github.com/tmorcinek/android-codegenerator-plugin-intellij/releases) and install it manually in:  
+You can download zip file from [latest release](https://github.com/tmorcinek/android-codegenerator-plugin-intellij/releases/latest) and install it manually in:  
 `Preferences/Settings->Plugins->Install plugin from disk` 
+
 
 License
 -------
