@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * Copyright 2014 Tomasz Morcinek. All rights reserved.
  */
+//FIXME needs to search for AndroidManifest under source roots
 public class PackageHelper {
 
     private final PackageExtractor packageExtractor = new XMLPackageExtractor();
