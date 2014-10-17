@@ -16,9 +16,20 @@ import java.util.List;
  */
 public class ProjectHelper {
 
-    public VirtualFile createFileAndOpenInEditor(Project project, String fileName, String folderPath, String code) throws IOException {
+    public boolean fileExists(Project project, String fileName, String folderPath) throws IOException {
+        try {
+            return project.getBaseDir().findFileByRelativePath(folderPath).findFileByRelativePath(fileName).exists();
+        } catch (NullPointerException e) {
+            return false;
+        }
+    }
+
+    public VirtualFile createOrFindFile(Project project, String fileName, String folderPath) throws IOException {
         VirtualFile folder = createFolderIfNotExist(project, folderPath);
-        VirtualFile createdFile = folder.createChildData(project, fileName);
+        return folder.findOrCreateChildData(project, fileName);
+    }
+
+    public VirtualFile setFileContent(Project project, VirtualFile createdFile, String code) throws IOException {
         createdFile.setBinaryContent(code.getBytes());
         openFileInEditor(project, createdFile);
         return createdFile;

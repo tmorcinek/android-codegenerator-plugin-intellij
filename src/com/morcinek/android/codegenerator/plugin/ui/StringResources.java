@@ -10,4 +10,9 @@ public interface StringResources {
     String TITLE_FORMAT_TEXT = "Code generated from: '%s'";
     String COPY_ACTION_LABEL = "Copy Code To Clipboard";
     String CREATE_ACTION_LABEL = "Create File";
+
+    String OVERRIDE_DIALOG_TITLE = "File Already Exists";
+    String OVERRIDE_DIALOG_MESSAGE = "File '%s/%s' already exists.\nDo you want to override file content with generated code.";
+    String OVERRIDE_DIALOG_YES_TEXT = "Override";
+    String OVERRIDE_DIALOG_NO_TEXT = "Cancel";
 }

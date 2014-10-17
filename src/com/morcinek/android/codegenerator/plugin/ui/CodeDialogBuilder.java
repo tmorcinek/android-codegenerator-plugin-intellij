@@ -57,7 +57,6 @@ public class CodeDialogBuilder {
                 } else {
                     action.run();
                 }
-                dialogBuilder.getDialogWrapper().close(DialogWrapper.OK_EXIT_CODE);
             }
         });
     }
@@ -85,6 +84,10 @@ public class CodeDialogBuilder {
 
     public int showDialog() {
         return dialogBuilder.show();
+    }
+
+    public void closeDialog(){
+        dialogBuilder.getDialogWrapper().close(DialogWrapper.OK_EXIT_CODE);
     }
 
     public String getModifiedCode() {
