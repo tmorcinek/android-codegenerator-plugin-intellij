@@ -47,8 +47,8 @@ public abstract class LayoutAction extends AnAction {
             String generatedCode = codeGeneratorController.generateCode(project, selectedFile, event.getData(PlatformDataKeys.EDITOR));
             final CodeDialogBuilder codeDialogBuilder = new CodeDialogBuilder(project,
                     String.format(StringResources.TITLE_FORMAT_TEXT, selectedFile.getName()), generatedCode);
-            codeDialogBuilder.addTextSection(StringResources.SOURCE_PATH_LABEL, settings.getSourcePath());
-            codeDialogBuilder.addTextSection(StringResources.PACKAGE_LABEL, packageHelper.getPackageName(project));
+            codeDialogBuilder.addSourcePathSection(projectHelper.getSourceRootPathList(project, event), settings.getSourcePath());
+            codeDialogBuilder.addPackageSection(packageHelper.getPackageName(project));
             codeDialogBuilder.addAction(StringResources.COPY_ACTION_LABEL, new Runnable() {
                 @Override
                 public void run() {
@@ -69,7 +69,7 @@ public abstract class LayoutAction extends AnAction {
                 }
             }, true);
             if (codeDialogBuilder.showDialog() == DialogWrapper.OK_EXIT_CODE) {
-                settings.setSourcePath(codeDialogBuilder.getValueForLabel(StringResources.SOURCE_PATH_LABEL));
+                settings.setSourcePath(codeDialogBuilder.getSourcePath());
             }
         } catch (Exception exception) {
             errorHandler.handleError(project, exception);
@@ -83,13 +83,13 @@ public abstract class LayoutAction extends AnAction {
     protected abstract ResourceProvidersFactory getResourceProvidersFactory();
 
     private String getFolderPath(CodeDialogBuilder codeDialogBuilder) {
-        String sourcePath = codeDialogBuilder.getValueForLabel(StringResources.SOURCE_PATH_LABEL);
-        String packageName = codeDialogBuilder.getValueForLabel(StringResources.PACKAGE_LABEL);
+        String sourcePath = codeDialogBuilder.getSourcePath();
+        String packageName = codeDialogBuilder.getPackage();
         return pathHelper.getFolderPath(sourcePath, packageName);
     }
 
     private String getFinalCode(CodeDialogBuilder codeDialogBuilder) {
-        String packageName = codeDialogBuilder.getValueForLabel(StringResources.PACKAGE_LABEL);
+        String packageName = codeDialogBuilder.getPackage();
         String modifiedCode = codeDialogBuilder.getModifiedCode();
         return pathHelper.getMergedCodeWithPackage(packageName, modifiedCode);
     }

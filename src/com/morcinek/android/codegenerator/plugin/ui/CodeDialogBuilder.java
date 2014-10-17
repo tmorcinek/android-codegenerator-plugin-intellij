@@ -3,8 +3,10 @@ package com.morcinek.android.codegenerator.plugin.ui;
 import com.google.common.collect.Maps;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.ui.DialogBuilder;
 import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.ui.CollectionComboBoxModel;
 import com.intellij.ui.JBColor;
 import com.intellij.ui.components.JBTextField;
 
@@ -24,7 +26,8 @@ public class CodeDialogBuilder {
     private final JPanel topPanel;
 
     private final JTextArea codeArea;
-    private final Map<String, JBTextField> textFieldMap = Maps.newHashMap();
+    private JBTextField packageText;
+    private JComboBox sourcePathComboBox;
 
     public CodeDialogBuilder(Project project, String title, String producedCode) {
         dialogBuilder = new DialogBuilder(project);
@@ -59,19 +62,29 @@ public class CodeDialogBuilder {
         });
     }
 
-    public void addTextSection(String label, String defaultText) {
-        topPanel.add(new JLabel(label));
-        JBTextField textField = new JBTextField(defaultText);
-        topPanel.add(textField);
-        textFieldMap.put(label, textField);
+    public void addPackageSection(String defaultText) {
+        topPanel.add(new JLabel(StringResources.PACKAGE_LABEL));
+        packageText = new JBTextField(defaultText);
+        topPanel.add(packageText);
+    }
+
+    public String getPackage() {
+        return packageText.getText();
+    }
+
+    public void addSourcePathSection(java.util.List<String> string, String defaultValue) {
+        topPanel.add(new JLabel(StringResources.SOURCE_PATH_LABEL));
+        sourcePathComboBox = new ComboBox(new CollectionComboBoxModel(string));
+        sourcePathComboBox.setSelectedItem(defaultValue);
+        topPanel.add(sourcePathComboBox);
+    }
+
+    public String getSourcePath() {
+        return (String) sourcePathComboBox.getSelectedItem();
     }
 
     public int showDialog() {
         return dialogBuilder.show();
-    }
-
-    public String getValueForLabel(String key) {
-        return textFieldMap.get(key).getText().trim();
     }
 
     public String getModifiedCode() {
