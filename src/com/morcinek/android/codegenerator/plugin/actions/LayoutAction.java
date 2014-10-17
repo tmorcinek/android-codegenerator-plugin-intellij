@@ -3,7 +3,6 @@ package com.morcinek.android.codegenerator.plugin.actions;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
@@ -31,8 +30,6 @@ import java.io.IOException;
  */
 public abstract class LayoutAction extends AnAction {
 
-    private final ActionVisibilityHelper actionVisibilityHelper = new ActionVisibilityHelper("layout", "xml");
-
     private final ErrorHandler errorHandler = new ErrorHandler();
 
     private final PackageHelper packageHelper = new PackageHelper();
@@ -41,20 +38,19 @@ public abstract class LayoutAction extends AnAction {
 
     private final PathHelper pathHelper = new PathHelper();
 
-    private final Settings settings = ServiceManager.getService(Settings.class);
-
     @Override
     public void actionPerformed(AnActionEvent event) {
-        Project project = event.getData(PlatformDataKeys.PROJECT);
+        Project project = getEventProject(event);
         VirtualFile selectedFile = event.getData(PlatformDataKeys.VIRTUAL_FILE);
+        Settings settings = Settings.getInstance(project);
         try {
-            showCodeDialog(event, project, selectedFile);
+            showCodeDialog(event, project, selectedFile, settings);
         } catch (Exception exception) {
             errorHandler.handleError(project, exception);
         }
     }
 
-    private void showCodeDialog(AnActionEvent event, final Project project, final VirtualFile selectedFile) throws ParserConfigurationException, SAXException, XPathExpressionException, IOException {
+    private void showCodeDialog(AnActionEvent event, final Project project, final VirtualFile selectedFile, Settings settings) throws ParserConfigurationException, SAXException, XPathExpressionException, IOException {
         CodeGeneratorController codeGeneratorController = new CodeGeneratorController(getTemplateName(), getResourceProvidersFactory());
         String generatedCode = codeGeneratorController.generateCode(project, selectedFile, event.getData(PlatformDataKeys.EDITOR));
         final CodeDialogBuilder codeDialogBuilder = new CodeDialogBuilder(project,
@@ -126,6 +122,6 @@ public abstract class LayoutAction extends AnAction {
 
     @Override
     public void update(AnActionEvent event) {
-        event.getPresentation().setVisible(actionVisibilityHelper.isVisible(event.getDataContext()));
+        event.getPresentation().setVisible(new ActionVisibilityHelper("layout", "xml").isVisible(event.getDataContext()));
     }
 }
