@@ -84,14 +84,17 @@ public abstract class LayoutAction extends AnAction {
     }
 
     private void createFileWithGeneratedCode(CodeDialogBuilder codeDialogBuilder, VirtualFile selectedFile, Project project) throws IOException {
-        String folderPath = getFolderPath(codeDialogBuilder);
-        String fileName = pathHelper.getFileName(selectedFile.getName(), getResourceName());
-        if (!projectHelper.fileExists(project, fileName, folderPath)) {
-            createOrOverrideFileWithGeneratedCode(codeDialogBuilder, project, folderPath, fileName);
+        if (codeDialogBuilder.getSourcePath() == null) {
+            DialogsFactory.showMissingSourcePathDialog(project);
         } else {
-            int result = DialogsFactory.openOverrideFileDialog(project, folderPath, fileName);
-            if (result == Messages.OK) {
+            String folderPath = getFolderPath(codeDialogBuilder);
+            String fileName = pathHelper.getFileName(selectedFile.getName(), getResourceName());
+            if (!projectHelper.fileExists(project, fileName, folderPath)) {
                 createOrOverrideFileWithGeneratedCode(codeDialogBuilder, project, folderPath, fileName);
+            } else {
+                if (DialogsFactory.openOverrideFileDialog(project, folderPath, fileName) == Messages.OK) {
+                    createOrOverrideFileWithGeneratedCode(codeDialogBuilder, project, folderPath, fileName);
+                }
             }
         }
     }

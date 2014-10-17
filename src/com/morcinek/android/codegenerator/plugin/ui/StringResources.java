@@ -15,4 +15,7 @@ public interface StringResources {
     String OVERRIDE_DIALOG_MESSAGE = "File '%s/%s' already exists.\nDo you want to override file content with generated code.";
     String OVERRIDE_DIALOG_YES_TEXT = "Override";
     String OVERRIDE_DIALOG_NO_TEXT = "Cancel";
+
+    String MISSING_SOURCE_PATH_DIALOG_MESSAGE = "You need to select 'Source Path' in which the file will be created.\nSelect one from the project's source roots.";
+    String MISSING_SOURCE_PATH_DIALOG_TITLE = "Missing Source Path";
 }

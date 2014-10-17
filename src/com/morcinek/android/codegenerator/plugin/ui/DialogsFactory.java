@@ -19,4 +19,12 @@ public class DialogsFactory {
                 UIUtil.getWarningIcon()
         );
     }
+
+    public static void showMissingSourcePathDialog(Project project) {
+        Messages.showErrorDialog(
+                project,
+                StringResources.MISSING_SOURCE_PATH_DIALOG_MESSAGE,
+                StringResources.MISSING_SOURCE_PATH_DIALOG_TITLE
+        );
+    }
 }
