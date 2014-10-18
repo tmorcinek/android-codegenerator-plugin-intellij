@@ -2,6 +2,7 @@ package com.morcinek.android.codegenerator.plugin.preferences.configurables;
 
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
+import com.morcinek.android.codegenerator.plugin.preferences.configurables.templates.TemplateConfigurable;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.Nullable;
@@ -36,7 +37,7 @@ public class MainConfigurable implements Configurable.Composite, Configurable.No
     @Override
     public JComponent createComponent() {
         System.out.println("CreateComponent");
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel(new BorderLayout());
         JLabel label = new JLabel("<html>Here you can edit 'Android Code Generator Plugin' settings. In children pages you can edit template for each code generation method.</html>");
         label.setVerticalAlignment(SwingConstants.TOP);
         panel.add(label, BorderLayout.PAGE_START);
