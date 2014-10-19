@@ -68,7 +68,9 @@
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceInterface="com.morcinek.android.codegenerator.plugin.persistence.Settings"
                         serviceImplementation="com.morcinek.android.codegenerator.plugin.persistence.Settings"/>
-        <applicationConfigurable instance="com.morcinek.android.codegenerator.plugin.preferences.configurables.MainConfigurable"/>
+        <applicationService
+                serviceInterface="com.morcinek.android.codegenerator.plugin.preferences.persistence.TemplateSettings"
+                serviceImplementation="com.morcinek.android.codegenerator.plugin.preferences.persistence.TemplateSettings"/>
     </extensions>
 
     <application-components>
