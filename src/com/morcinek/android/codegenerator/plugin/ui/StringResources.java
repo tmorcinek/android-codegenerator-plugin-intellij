@@ -18,4 +18,7 @@ public interface StringResources {
 
     String MISSING_SOURCE_PATH_DIALOG_MESSAGE = "You need to select 'Source Path' in which the file will be created.\nSelect one from the project's source roots.";
     String MISSING_SOURCE_PATH_DIALOG_TITLE = "Missing Source Path";
+
+    String RESET_TO_DEFAULT_ACTION_DESCRIPTION = "Reset templates to Defaults";
+    String RESET_TO_DEFAULT_ACTION_TITLE = "Reset to Defaults";
 }

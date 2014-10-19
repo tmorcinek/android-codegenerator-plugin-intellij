@@ -10,7 +10,7 @@ import com.intellij.util.ui.UIUtil;
  */
 public class DialogsFactory {
 
-    public static int openOverrideFileDialog(Project project, String folderPath, String fileName) {
+    public static boolean openOverrideFileDialog(Project project, String folderPath, String fileName) {
         return Messages.showYesNoDialog(
                 project,
                 String.format(StringResources.OVERRIDE_DIALOG_MESSAGE, folderPath, fileName),
@@ -18,7 +18,7 @@ public class DialogsFactory {
                 StringResources.OVERRIDE_DIALOG_YES_TEXT,
                 StringResources.OVERRIDE_DIALOG_NO_TEXT,
                 UIUtil.getWarningIcon()
-        );
+        ) == Messages.OK;
     }
 
     public static void showMissingSourcePathDialog(Project project) {

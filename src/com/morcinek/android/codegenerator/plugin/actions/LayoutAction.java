@@ -5,7 +5,6 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.morcinek.android.codegenerator.codegeneration.providers.ResourceProvidersFactory;
 import com.morcinek.android.codegenerator.plugin.actions.visibility.ActionVisibilityHelper;
@@ -88,7 +87,7 @@ public abstract class LayoutAction extends AnAction {
             if (!projectHelper.fileExists(project, fileName, folderPath)) {
                 createOrOverrideFileWithGeneratedCode(codeDialogBuilder, project, folderPath, fileName);
             } else {
-                if (DialogsFactory.openOverrideFileDialog(project, folderPath, fileName) == Messages.OK) {
+                if (DialogsFactory.openOverrideFileDialog(project, folderPath, fileName)) {
                     createOrOverrideFileWithGeneratedCode(codeDialogBuilder, project, folderPath, fileName);
                 }
             }

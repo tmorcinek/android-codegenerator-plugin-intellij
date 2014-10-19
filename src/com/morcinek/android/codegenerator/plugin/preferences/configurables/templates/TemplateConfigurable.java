@@ -18,6 +18,7 @@ import com.intellij.ui.SeparatorFactory;
 import com.intellij.ui.roots.ToolbarPanel;
 import com.morcinek.android.codegenerator.plugin.preferences.persistence.TemplateSettings;
 import com.morcinek.android.codegenerator.plugin.ui.DialogsFactory;
+import com.morcinek.android.codegenerator.plugin.ui.StringResources;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
@@ -54,32 +55,8 @@ public class TemplateConfigurable extends BaseConfigurable {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(400, 300));
         panel.add(SeparatorFactory.createSeparator(templateHeaderText, null), BorderLayout.PAGE_START);
-        panel.add(new ToolbarPanel(editorPanel, new DefaultActionGroup(createResetToDefaultAction())), BorderLayout.CENTER);
+        panel.add(new ToolbarPanel(editorPanel, new DefaultActionGroup(new ResetToDefaultAction())), BorderLayout.CENTER);
         return panel;
-    }
-
-    private AnAction createResetToDefaultAction() {
-        return new AnAction("Reset to Defaults", "Reset templates to Defaults", AllIcons.Actions.Reset) {
-            @Override
-            public void actionPerformed(AnActionEvent anActionEvent) {
-                if (DialogsFactory.openResetTemplateDialog()) {
-                    templateSettings.removeTemplateForName(templateName);
-                    ApplicationManager.getApplication().runWriteAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            editor.getDocument().setText(templateSettings.provideTemplateForName(templateName));
-                            setUnmodified();
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void update(AnActionEvent e) {
-                super.update(e);
-                e.getPresentation().setEnabled(templateSettings.isUsingCustomTemplateForName(templateName));
-            }
-        };
     }
 
     private Editor createEditorInPanel(String string) {
@@ -160,5 +137,32 @@ public class TemplateConfigurable extends BaseConfigurable {
     @Override
     public String getHelpTopic() {
         return null;
+    }
+
+    class ResetToDefaultAction extends AnAction {
+
+        ResetToDefaultAction() {
+            super(StringResources.RESET_TO_DEFAULT_ACTION_TITLE, StringResources.RESET_TO_DEFAULT_ACTION_DESCRIPTION, AllIcons.Actions.Reset);
+        }
+
+        @Override
+        public void actionPerformed(AnActionEvent anActionEvent) {
+            if (DialogsFactory.openResetTemplateDialog()) {
+                templateSettings.removeTemplateForName(templateName);
+                ApplicationManager.getApplication().runWriteAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        editor.getDocument().setText(templateSettings.provideTemplateForName(templateName));
+                        setUnmodified();
+                    }
+                });
+            }
+        }
+
+        @Override
+        public void update(AnActionEvent e) {
+            super.update(e);
+            e.getPresentation().setEnabled(templateSettings.isUsingCustomTemplateForName(templateName));
+        }
     }
 }
