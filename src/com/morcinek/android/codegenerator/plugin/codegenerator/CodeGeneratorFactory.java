@@ -7,6 +7,7 @@ import com.morcinek.android.codegenerator.codegeneration.providers.ResourceProvi
 import com.morcinek.android.codegenerator.codegeneration.templates.TemplatesProvider;
 import com.morcinek.android.codegenerator.extractor.XMLResourceExtractor;
 import com.morcinek.android.codegenerator.extractor.string.FileNameExtractor;
+import com.morcinek.android.codegenerator.plugin.preferences.persistence.TemplateSettings;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,7 +22,7 @@ public class CodeGeneratorFactory {
         return new CodeGenerator(XMLResourceExtractor.createResourceExtractor(),
                 new FileNameExtractor(),
                 //FIXME change ResourceTemplateProvider for PreferencesTemplateProvider
-                new TemplateCodeGenerator(templateName, resourceProvidersFactory, new ResourceTemplateProvider()));
+                new TemplateCodeGenerator(templateName, resourceProvidersFactory, TemplateSettings.getInstance()));
     }
 
     public static class ResourceTemplateProvider implements TemplatesProvider {
