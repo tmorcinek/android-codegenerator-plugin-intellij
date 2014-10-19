@@ -24,7 +24,7 @@ public class CodeGeneratorFactory {
                 new TemplateCodeGenerator(templateName, resourceProvidersFactory, new ResourceTemplateProvider()));
     }
 
-    static class ResourceTemplateProvider implements TemplatesProvider {
+    public static class ResourceTemplateProvider implements TemplatesProvider {
 
         @Override
         public String provideTemplateForName(String templateName) {

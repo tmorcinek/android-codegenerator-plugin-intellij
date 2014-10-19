@@ -10,6 +10,7 @@ import com.intellij.openapi.editor.event.DocumentEvent;
 import com.intellij.openapi.options.BaseConfigurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.ui.SeparatorFactory;
+import com.morcinek.android.codegenerator.plugin.preferences.persistence.TemplateSettings;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,18 +22,23 @@ import java.awt.*;
  */
 public class TemplateConfigurable extends BaseConfigurable {
 
-    public TemplateConfigurable() {
-    }
+    private JPanel editorWrapperPanel = new JPanel(new GridLayout());
+
+    private TemplateSettings templateSettings;
+
+    private Editor editor;
+
+    private String templateName = "Activity_template";
 
     @Nullable
     @Override
     public JComponent createComponent() {
+        templateSettings = TemplateSettings.getInstance();
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(SeparatorFactory.createSeparator("This is sparta", null), BorderLayout.PAGE_START);
-
-        String string = "thids is content jkdlsjfd sfjkdls fjdslkf dsf djks fds fjdks fjd sfjd skf dksj fdsf dksf djs fdsfds f\n TO powinna byc nowa linia";
-        Editor editor = createEditor(string);
-        panel.add(editor.getComponent(), BorderLayout.CENTER);
+        editor = createEditor(templateSettings.provideTemplateForName(templateName));
+        editorWrapperPanel.add(editor.getComponent());
+        panel.add(editorWrapperPanel, BorderLayout.CENTER);
         return panel;
     }
 
@@ -67,16 +73,26 @@ public class TemplateConfigurable extends BaseConfigurable {
 
     @Override
     public void apply() throws ConfigurationException {
-        System.out.println("apply");
+        templateSettings.setTemplateForName(templateName, editor.getDocument().getText());
+        myModified = false;
     }
 
     @Override
     public void reset() {
-        System.out.println("reset");
+        EditorFactory.getInstance().releaseEditor(editor);
+        editor = createEditor(templateSettings.provideTemplateForName(templateName));
+        editorWrapperPanel.removeAll();
+        editorWrapperPanel.add(editor.getComponent());
+        myModified = false;
     }
 
     @Override
     public void disposeUIResources() {
+        if (editor != null) {
+            EditorFactory.getInstance().releaseEditor(editor);
+            editor = null;
+        }
+        templateSettings = null;
     }
 
     @Nls

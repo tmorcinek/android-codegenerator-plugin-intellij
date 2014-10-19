@@ -9,10 +9,10 @@ import org.jetbrains.annotations.Nullable;
  * Copyright 2014 Tomasz Morcinek. All rights reserved.
  */
 @State(
-        name = "Settings",
+        name = "CodeGeneratorSettings",
         storages = {
                 @Storage(file = StoragePathMacros.PROJECT_FILE),
-                @Storage(file = StoragePathMacros.PROJECT_CONFIG_DIR + "/settings.xml", scheme = StorageScheme.DIRECTORY_BASED)
+                @Storage(file = StoragePathMacros.PROJECT_CONFIG_DIR + "/code_generator_settings.xml", scheme = StorageScheme.DIRECTORY_BASED)
         }
 )
 public class Settings implements PersistentStateComponent<Settings> {
