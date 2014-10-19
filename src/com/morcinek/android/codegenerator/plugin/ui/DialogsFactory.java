@@ -1,5 +1,6 @@
 package com.morcinek.android.codegenerator.plugin.ui;
 
+import com.intellij.ide.IdeBundle;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.util.ui.UIUtil;
@@ -26,5 +27,11 @@ public class DialogsFactory {
                 StringResources.MISSING_SOURCE_PATH_DIALOG_MESSAGE,
                 StringResources.MISSING_SOURCE_PATH_DIALOG_TITLE
         );
+    }
+
+    public static boolean openResetTemplateDialog() {
+        return Messages.showOkCancelDialog(IdeBundle.message("prompt.reset.to.original.template"),
+                IdeBundle.message("title.reset.template"), Messages.getQuestionIcon()) ==
+                Messages.OK;
     }
 }

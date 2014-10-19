@@ -49,13 +49,21 @@ public class TemplateSettings implements PersistentStateComponent<TemplateSettin
 
     @Override
     public String provideTemplateForName(String templateName) {
-        if (templateValues.containsKey(templateName)) {
+        if (isUsingCustomTemplateForName(templateName)) {
             return templateValues.get(templateName);
         }
         return templatesProvider.provideTemplateForName(templateName);
     }
 
-    public String setTemplateForName(String templateName, String template) {
-        return templateValues.put(templateName, template);
+    public void removeTemplateForName(String templateName) {
+        templateValues.remove(templateName);
+    }
+
+    public boolean isUsingCustomTemplateForName(String templateName) {
+        return templateValues.containsKey(templateName);
+    }
+
+    public void setTemplateForName(String templateName, String template) {
+        templateValues.put(templateName, template);
     }
 }

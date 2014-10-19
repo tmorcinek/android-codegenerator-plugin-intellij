@@ -1,5 +1,10 @@
 package com.morcinek.android.codegenerator.plugin.preferences.configurables.templates;
 
+import com.intellij.icons.AllIcons;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.DefaultActionGroup;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.EditorSettings;
@@ -10,7 +15,9 @@ import com.intellij.openapi.editor.event.DocumentEvent;
 import com.intellij.openapi.options.BaseConfigurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.ui.SeparatorFactory;
+import com.intellij.ui.roots.ToolbarPanel;
 import com.morcinek.android.codegenerator.plugin.preferences.persistence.TemplateSettings;
+import com.morcinek.android.codegenerator.plugin.ui.DialogsFactory;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,11 +49,37 @@ public class TemplateConfigurable extends BaseConfigurable {
     @Override
     public JComponent createComponent() {
         templateSettings = TemplateSettings.getInstance();
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(SeparatorFactory.createSeparator(templateHeaderText, null), BorderLayout.PAGE_START);
         editor = createEditorInPanel(templateSettings.provideTemplateForName(templateName));
-        panel.add(editorPanel, BorderLayout.CENTER);
+
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setPreferredSize(new Dimension(400, 300));
+        panel.add(SeparatorFactory.createSeparator(templateHeaderText, null), BorderLayout.PAGE_START);
+        panel.add(new ToolbarPanel(editorPanel, new DefaultActionGroup(createResetToDefaultAction())), BorderLayout.CENTER);
         return panel;
+    }
+
+    private AnAction createResetToDefaultAction() {
+        return new AnAction("Reset to Defaults", "Reset templates to Defaults", AllIcons.Actions.Reset) {
+            @Override
+            public void actionPerformed(AnActionEvent anActionEvent) {
+                if (DialogsFactory.openResetTemplateDialog()) {
+                    templateSettings.removeTemplateForName(templateName);
+                    ApplicationManager.getApplication().runWriteAction(new Runnable() {
+                        @Override
+                        public void run() {
+                            editor.getDocument().setText(templateSettings.provideTemplateForName(templateName));
+                            setUnmodified();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void update(AnActionEvent e) {
+                super.update(e);
+                e.getPresentation().setEnabled(templateSettings.isUsingCustomTemplateForName(templateName));
+            }
+        };
     }
 
     private Editor createEditorInPanel(String string) {
@@ -98,20 +131,29 @@ public class TemplateConfigurable extends BaseConfigurable {
     @Override
     public void apply() throws ConfigurationException {
         templateSettings.setTemplateForName(templateName, editor.getDocument().getText());
-        myModified = false;
+        setUnmodified();
     }
 
     @Override
     public void reset() {
         EditorFactory.getInstance().releaseEditor(editor);
         editor = createEditorInPanel(templateSettings.provideTemplateForName(templateName));
-        myModified = false;
+        setUnmodified();
+    }
+
+    private void setUnmodified() {
+        setModified(false);
     }
 
     @Nls
     @Override
     public String getDisplayName() {
         return displayName;
+    }
+
+    @Override
+    public JComponent getPreferredFocusedComponent() {
+        return editorPanel;
     }
 
     @Nullable
