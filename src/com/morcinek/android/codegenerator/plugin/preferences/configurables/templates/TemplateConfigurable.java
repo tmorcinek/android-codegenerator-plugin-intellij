@@ -22,27 +22,34 @@ import java.awt.*;
  */
 public class TemplateConfigurable extends BaseConfigurable {
 
-    private JPanel editorWrapperPanel = new JPanel(new GridLayout());
-
-    private TemplateSettings templateSettings;
+    private JPanel editorPanel = new JPanel(new GridLayout());
 
     private Editor editor;
 
-    private String templateName = "Activity_template";
+    private TemplateSettings templateSettings;
+
+    private final String templateName;
+    private final String templateHeaderText;
+    private final String displayName;
+
+    public TemplateConfigurable(String displayName, String templateHeaderText, String templateName) {
+        this.displayName = displayName;
+        this.templateHeaderText = templateHeaderText;
+        this.templateName = templateName;
+    }
 
     @Nullable
     @Override
     public JComponent createComponent() {
         templateSettings = TemplateSettings.getInstance();
         JPanel panel = new JPanel(new BorderLayout());
-        panel.add(SeparatorFactory.createSeparator("This is sparta", null), BorderLayout.PAGE_START);
-        editor = createEditor(templateSettings.provideTemplateForName(templateName));
-        editorWrapperPanel.add(editor.getComponent());
-        panel.add(editorWrapperPanel, BorderLayout.CENTER);
+        panel.add(SeparatorFactory.createSeparator(templateHeaderText, null), BorderLayout.PAGE_START);
+        editor = createEditorInPanel(templateSettings.provideTemplateForName(templateName));
+        panel.add(editorPanel, BorderLayout.CENTER);
         return panel;
     }
 
-    private Editor createEditor(String string) {
+    private Editor createEditorInPanel(String string) {
         EditorFactory editorFactory = EditorFactory.getInstance();
         Editor editor = editorFactory.createEditor(editorFactory.createDocument(string));
 
@@ -64,6 +71,9 @@ public class TemplateConfigurable extends BaseConfigurable {
                 onTextChanged();
             }
         });
+
+        addEditorToPanel(editor);
+
         return editor;
     }
 
@@ -71,19 +81,9 @@ public class TemplateConfigurable extends BaseConfigurable {
         myModified = true;
     }
 
-    @Override
-    public void apply() throws ConfigurationException {
-        templateSettings.setTemplateForName(templateName, editor.getDocument().getText());
-        myModified = false;
-    }
-
-    @Override
-    public void reset() {
-        EditorFactory.getInstance().releaseEditor(editor);
-        editor = createEditor(templateSettings.provideTemplateForName(templateName));
-        editorWrapperPanel.removeAll();
-        editorWrapperPanel.add(editor.getComponent());
-        myModified = false;
+    private void addEditorToPanel(Editor editor) {
+        editorPanel.removeAll();
+        editorPanel.add(editor.getComponent());
     }
 
     @Override
@@ -95,10 +95,23 @@ public class TemplateConfigurable extends BaseConfigurable {
         templateSettings = null;
     }
 
+    @Override
+    public void apply() throws ConfigurationException {
+        templateSettings.setTemplateForName(templateName, editor.getDocument().getText());
+        myModified = false;
+    }
+
+    @Override
+    public void reset() {
+        EditorFactory.getInstance().releaseEditor(editor);
+        editor = createEditorInPanel(templateSettings.provideTemplateForName(templateName));
+        myModified = false;
+    }
+
     @Nls
     @Override
     public String getDisplayName() {
-        return "Activity Template";
+        return displayName;
     }
 
     @Nullable

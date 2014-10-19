@@ -61,7 +61,12 @@ public class MainConfigurable implements Configurable.Composite, Configurable.No
 
     public Configurable[] getConfigurables() {
         if (configurables == null) {
-            configurables = new Configurable[]{new TemplateConfigurable()};
+            configurables = new Configurable[]{
+                    new TemplateConfigurable("Activity Template", "Setup Template for Activity code generation:", "Activity_template"),
+                    new TemplateConfigurable("Adapter Template", "Setup Template for Adapter code generation:", "Adapter_template"),
+                    new TemplateConfigurable("Fragment Template", "Setup Template for Fragment code generation:", "Fragment_template"),
+                    new TemplateConfigurable("Menu Template", "Setup Template for Menu code generation:", "Menu_template")
+            };
         }
         return configurables;
     }
