@@ -36,7 +36,6 @@ public class MainConfigurable implements Configurable.Composite, Configurable.No
 
     @Override
     public JComponent createComponent() {
-        System.out.println("CreateComponent");
         JPanel panel = new JPanel(new BorderLayout());
         JLabel label = new JLabel("<html>Here you can edit 'Android Code Generator Plugin' settings. In children pages you can edit template for each code generation method.</html>");
         label.setVerticalAlignment(SwingConstants.TOP);

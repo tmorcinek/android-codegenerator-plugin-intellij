@@ -71,6 +71,8 @@
         <applicationService
                 serviceInterface="com.morcinek.android.codegenerator.plugin.preferences.persistence.TemplateSettings"
                 serviceImplementation="com.morcinek.android.codegenerator.plugin.preferences.persistence.TemplateSettings"/>
+        <applicationConfigurable
+                instance="com.morcinek.android.codegenerator.plugin.preferences.configurables.MainConfigurable"/>
     </extensions>
 
     <application-components>
