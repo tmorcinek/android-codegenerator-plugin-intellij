@@ -6,13 +6,15 @@
 
     <description><![CDATA[
         <h1>Android Code Generator Plugin</h1>
-        <br/>
 
+        <h2>Author</h2>
+        Author of this plugin is <b>Tomasz Morcinek</b>. <br/>
+        Public <b>github</b> profile: <a href="https://github.com/tmorcinek">https://github.com/tmorcinek</a>.
 
+        <h2>Repository</h2>
         Project on github <a href="https://github.com/tmorcinek/android-codegenerator-plugin-intellij">android-codegenerator-plugin-intellij</a>
-        <br/>
-        <br/>
 
+        <h2>Description</h2>
         Plugin parses xml file, and retrieves data about all the views that contain android:id attribute. <br/>
         Plugin collects information about view's type and id. Based on that, plugin generates fields, assignment, imports and methods. <br/>
 
