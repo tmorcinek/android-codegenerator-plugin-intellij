@@ -1,6 +1,7 @@
 package com.morcinek.android.codegenerator.plugin.preferences.configurables.templates;
 
 import com.intellij.icons.AllIcons;
+import com.intellij.ide.highlighter.JavaFileHighlighter;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
@@ -8,10 +9,11 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.EditorSettings;
-import com.intellij.openapi.editor.colors.EditorColors;
-import com.intellij.openapi.editor.colors.EditorColorsScheme;
+import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.event.DocumentAdapter;
 import com.intellij.openapi.editor.event.DocumentEvent;
+import com.intellij.openapi.editor.ex.EditorEx;
+import com.intellij.openapi.editor.ex.util.LexerEditorHighlighter;
 import com.intellij.openapi.options.BaseConfigurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.ui.SeparatorFactory;
@@ -72,9 +74,6 @@ public class TemplateConfigurable extends BaseConfigurable {
         editorSettings.setAdditionalColumnsCount(3);
         editorSettings.setAdditionalLinesCount(3);
 
-        EditorColorsScheme scheme = editor.getColorsScheme();
-        scheme.setColor(EditorColors.CARET_ROW_COLOR, null);
-
         editor.getDocument().addDocumentListener(new DocumentAdapter() {
             @Override
             public void documentChanged(DocumentEvent e) {
@@ -82,9 +81,15 @@ public class TemplateConfigurable extends BaseConfigurable {
             }
         });
 
+        ((EditorEx) editor).setHighlighter(getEditorHighlighter());
+
         addEditorToPanel(editor);
 
         return editor;
+    }
+
+    private LexerEditorHighlighter getEditorHighlighter() {
+        return new LexerEditorHighlighter(new JavaFileHighlighter(), EditorColorsManager.getInstance().getGlobalScheme());
     }
 
     private void onTextChanged() {
