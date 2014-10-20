@@ -35,6 +35,7 @@ public class MenuAction extends AnAction {
                 @Override
                 public void run() {
                     ClipboardHelper.copy(codeDialogBuilder.getModifiedCode());
+                    codeDialogBuilder.closeDialog();
                 }
             });
             codeDialogBuilder.showDialog();
