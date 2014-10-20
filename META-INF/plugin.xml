@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>com.morcinek.android.codegenerator.plugin.intellij</id>
     <name>Android Code Generator Plugin</name>
-    <version>1.1</version>
+    <version>1.2</version>
     <vendor email="tomasz.morcinek@gmail.com" url="http://morcinek.co.uk">Tomasz Morcinek</vendor>
 
     <description><![CDATA[
@@ -38,6 +38,21 @@
     ]]></description>
 
     <change-notes><![CDATA[
+
+        <b>Version 1.2</b>
+        <ul>
+            <li>ISSUE #2: Templates should be editable in PreferencesPages.</li>
+            <li>ISSUE #6: When plugin is about to override existing file content user should be informed.</li>
+            <li>ISSUE #5: Source path should be retrieved from project and there should be combo instead of text field.</li>
+        </ul>
+
+        <b>Version 1.1</b>
+        <ul>
+            <li>ISSUE #1: Editor should pops up when creating file.</li>
+            <li>ISSUE #3: Source path should be saved in persistence store.</li>
+            <li>ISSUE #4: Generate Code Menu Options should be available through editor.</li>
+        </ul>
+
         <b>Version 1.0</b>
         <ul>
             <li>generating Activity Class code from layout</li>
@@ -47,13 +62,6 @@
             <li>creating files from code</li>
             <li>preview screen with generated code that can be modified before creation of file</li>
             <li>detection of project package</li>
-        </ul>
-
-        <b>Version 1.1</b>
-        <ul>
-            <li>ISSUE #1: Editor should pops up when creating file.</li>
-            <li>ISSUE #3: Source path should be saved in persistence store.</li>
-            <li>ISSUE #4: Generate Code Menu Options should be available through editor.</li>
         </ul>
     ]]>
     </change-notes>
