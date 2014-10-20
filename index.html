@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Android-codegenerator-plugin-intellij by tmorcinek</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Android-codegenerator-plugin-intellij</h1>
+        <p>Intellij Plugin for Android code generation.</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/tmorcinek/android-codegenerator-plugin-intellij" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/tmorcinek/android-codegenerator-plugin-intellij/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/tmorcinek/android-codegenerator-plugin-intellij/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h3>
+<a name="introduction" class="anchor" href="#introduction"><span class="octicon octicon-link"></span></a>Introduction</h3>
+
+<p>Android Code Generator Plugin for Android Studio/IntelliJ IDEA was created to accelerate the process of creating or developing Android applications. Every Activity needs to have XML layout, and Activity contains all the wiring up code like: </p>
+
+<ul>
+<li>fields for all required Views</li>
+<li>assigning fields to actual objects (<strong>findViewById()</strong> method)</li>
+<li>wiring up listeners to buttons (<strong>setOnClickListener()</strong> method)
+etc...</li>
+</ul>
+
+<p>Instead of writing this code, I would be great if this code could be generated automatically. 
+This way I come up with idea to have a plugin which does the code generation. I couldn't find such plugin so I decided to write it by myself. Luckily I was off project then, and I could spend some time on it. 
+This way I created the first version in 2011. In 2014 I decided to basically rewrite the plugin from the beginning, add tests and split it into two projects: </p>
+
+<ul>
+<li>library (<a href="https://github.com/tmorcinek/android-codegenerator-library">https://github.com/tmorcinek/android-codegenerator-library</a>)</li>
+<li>main project - this one, which contains reference to library project, and all Plugin Development Environment related code.</li>
+</ul>
+
+<h3>
+<a name="install-from-jetbrains-repository" class="anchor" href="#install-from-jetbrains-repository"><span class="octicon octicon-link"></span></a>Install from JetBrains repository</h3>
+
+<p><img src="https://dl.dropboxusercontent.com/u/86831510/intellij-plugin/plugin_install_400.gif" alt=""></p>
+
+<h3>
+<a name="download-and-install" class="anchor" href="#download-and-install"><span class="octicon octicon-link"></span></a>Download and install</h3>
+
+<p>All available versions of plugin are in <a href="https://github.com/tmorcinek/android-codegenerator-plugin-intellij/releases">releases</a>. You can download zip file from <a href="https://github.com/tmorcinek/android-codegenerator-plugin-intellij/releases/latest">latest release</a> and install it.
+<img src="https://dl.dropboxusercontent.com/u/86831510/intellij-plugin/install_downloaded_400.gif" alt=""></p>
+
+<h3>
+<a name="how-does-it-work" class="anchor" href="#how-does-it-work"><span class="octicon octicon-link"></span></a>How does it work</h3>
+
+<p>Plugin is retrieving from xml files, data about all the views that contain <strong>android:id</strong> attribute. It collects informations about view's type and id. Based on the <em>type of object</em> and <em>id</em> plugin generates fields, assignment, imports and methods. For more informations go to <a href="https://github.com/tmorcinek/android-codegenerator-library">android-codegenerator-library</a> project.</p>
+
+<h3>
+<a name="how-to-use-it" class="anchor" href="#how-to-use-it"><span class="octicon octicon-link"></span></a>How to use it</h3>
+
+<h4>
+<a name="finding-menu-options" class="anchor" href="#finding-menu-options"><span class="octicon octicon-link"></span></a>Finding menu options</h4>
+
+<p>For all xml files that are either in <strong>layout</strong> or <strong>menu</strong> directories menu option <strong>Generate Android Code</strong> appears. You can invoke it from Project Explorer as well as from Editor.</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/86831510/intellij-plugin/menu_options.gif" alt="Menu Options"></p>
+
+<h4>
+<a name="generating-activity-with-menu" class="anchor" href="#generating-activity-with-menu"><span class="octicon octicon-link"></span></a>Generating Activity with Menu</h4>
+
+<p><img src="https://dl.dropboxusercontent.com/u/86831510/intellij-plugin/creating_of_activity_with_menu.gif" alt=""></p>
+
+<h4>
+<a name="modifying-code-to-generate" class="anchor" href="#modifying-code-to-generate"><span class="octicon octicon-link"></span></a>Modifying code to generate</h4>
+
+<p><img src="https://dl.dropboxusercontent.com/u/86831510/intellij-plugin/modifying_generated_code.gif" alt=""></p>
+
+<h4>
+<a name="plugin-settings-in-preferences" class="anchor" href="#plugin-settings-in-preferences"><span class="octicon octicon-link"></span></a>Plugin settings in Preferences</h4>
+
+<p><img src="https://dl.dropboxusercontent.com/u/86831510/intellij-plugin/preferences.gif" alt=""></p>
+
+<h3>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h3>
+
+<p>There are several very useful features some of them are:</p>
+
+<ul>
+<li>generating Activity Class code from layout</li>
+<li>generating Fragment Class code from layout</li>
+<li>generating Adapter Class code from item layout</li>
+<li>generating Menu code from menu xml</li>
+<li>creating files from code</li>
+<li>preview screen with generated code that can be modified before creation of file</li>
+<li>detection of project package</li>
+<li>detection of source directories in project</li>
+<li>settings in Preferences with editable template for each option: Activity, Fragment, Adapter, Menu</li>
+</ul>
+
+<h3>
+<a name="plans-for-future" class="anchor" href="#plans-for-future"><span class="octicon octicon-link"></span></a>Plans for future</h3>
+
+<p>Improving plugin usability.</p>
+
+<h3>
+<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+
+<p>The author is Tomasz Morcinek <a href="https://github.com/tmorcinek" class="user-mention">@tmorcinek</a>.</p>
+
+<h3>
+<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+
+<p>If you have any problems with the plugin, or want to help, please contact me: <a href="mailto:tomasz.morcinek@gmail.com">tomasz.morcinek@gmail.com</a> and I will try to reply as soon as I can. </p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/tmorcinek">tmorcinek</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
