@@ -3,19 +3,53 @@ Android Studio/IntelliJ IDEA Plugin for Android code generation
 
 Plugin for generation of Android code from XML files (layouts, menus).
 
-More information will be available soon.
+For more information please see [the website](http://tmorcinek.github.io/android-codegenerator-plugin-intellij)
 
 
-Download
+JetBrains Repository
+-------
+
+You can install plugin from repository: 
+`Preferences/Settings->Plugins->Browse repositories...` 
+Then type in search: 
+`Android code Generator`
+
+
+Download & Installation
 -------
 
 All available versions of plugin are in [releases](https://github.com/tmorcinek/android-codegenerator-plugin-intellij/releases)
-
-
-Installation
--------
 You can download zip file from [latest release](https://github.com/tmorcinek/android-codegenerator-plugin-intellij/releases/latest) and install it manually in:  
 `Preferences/Settings->Plugins->Install plugin from disk` 
+
+
+Change notes
+-------
+
+<b>Version 1.2</b>
+<ul>
+    <li>ISSUE #2: Templates should be editable in PreferencesPages.</li>
+    <li>ISSUE #6: When plugin is about to override existing file content user should be informed.</li>
+    <li>ISSUE #5: Source path should be retrieved from project and there should be combo instead of text field.</li>
+</ul>
+
+<b>Version 1.1</b>
+<ul>
+    <li>ISSUE #1: Editor should pops up when creating file.</li>
+    <li>ISSUE #3: Source path should be saved in persistence store.</li>
+    <li>ISSUE #4: Generate Code Menu Options should be available through editor.</li>
+</ul>
+
+<b>Version 1.0</b>
+<ul>
+    <li>generating Activity Class code from layout</li>
+    <li>generating Fragment Class code from layout</li>
+    <li>generating Adapter Class code from item layout</li>
+    <li>generating Menu code from menu xml</li>
+    <li>creating files from code</li>
+    <li>preview screen with generated code that can be modified before creation of file</li>
+    <li>detection of project package</li>
+</ul>
 
 
 License
