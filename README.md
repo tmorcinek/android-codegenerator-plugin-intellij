@@ -26,6 +26,11 @@ You can download zip file from [latest release](https://github.com/tmorcinek/and
 Change notes
 -------
 
+<b>Version 1.3</b>
+<ul>
+    <li>Support for IntelliJ IDEA 14.</li>
+</ul>
+
 <b>Version 1.2</b>
 <ul>
     <li>ISSUE #2: Templates should be editable in PreferencesPages.</li>
