@@ -5,7 +5,5 @@ target
 out
 
 # intelij files
-/.idea
-/.idea/*
-
-
+/.idea/workspace.xml
+/.idea/misc.xml
