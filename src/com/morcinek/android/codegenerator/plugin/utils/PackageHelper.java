@@ -1,6 +1,6 @@
 package com.morcinek.android.codegenerator.plugin.utils;
 
-import com.google.common.collect.Lists;
+import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.morcinek.android.codegenerator.extractor.PackageExtractor;
@@ -16,9 +16,11 @@ public class PackageHelper {
 
     private final PackageExtractor packageExtractor = new XMLPackageExtractor();
 
-    public String getPackageName(Project project) {
+    private final ProjectHelper projectHelper = new ProjectHelper();
+
+    public String getPackageName(Project project, AnActionEvent event) {
         try {
-            for (String path : possiblePaths()) {
+            for (String path : possiblePaths(project, event)) {
                 VirtualFile file = getManifestFileFromPath(project, path);
                 if (file != null && file.exists()) {
                     return packageExtractor.extractPackageFromManifestStream(file.getInputStream());
@@ -29,11 +31,11 @@ public class PackageHelper {
         return "";
     }
 
-    private List<String> possiblePaths() {
-        return Lists.newArrayList("/", "/app/src/main/", "/src/main/", "/res/");
+    private List<String> possiblePaths(Project project, AnActionEvent event) {
+        return projectHelper.getSourceRootPathList(project, event);
     }
 
     private VirtualFile getManifestFileFromPath(Project project, String path) {
-        return project.getBaseDir().findFileByRelativePath(path + "AndroidManifest.xml");
+        return project.getBaseDir().findFileByRelativePath(path).findChild("AndroidManifest.xml");
     }
 }

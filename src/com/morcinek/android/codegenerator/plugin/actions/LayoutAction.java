@@ -55,7 +55,7 @@ public abstract class LayoutAction extends AnAction {
         final CodeDialogBuilder codeDialogBuilder = new CodeDialogBuilder(project,
                 String.format(StringResources.TITLE_FORMAT_TEXT, selectedFile.getName()), generatedCode);
         codeDialogBuilder.addSourcePathSection(projectHelper.getSourceRootPathList(project, event), settings.getSourcePath());
-        codeDialogBuilder.addPackageSection(packageHelper.getPackageName(project));
+        codeDialogBuilder.addPackageSection(packageHelper.getPackageName(project, event));
         codeDialogBuilder.addAction(StringResources.COPY_ACTION_LABEL, new Runnable() {
             @Override
             public void run() {
