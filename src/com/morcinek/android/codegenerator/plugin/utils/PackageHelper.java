@@ -1,5 +1,6 @@
 package com.morcinek.android.codegenerator.plugin.utils;
 
+import com.google.common.collect.Lists;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -32,7 +33,7 @@ public class PackageHelper {
     }
 
     private List<String> possiblePaths(Project project, AnActionEvent event) {
-        return projectHelper.getSourceRootPathList(project, event);
+        return Lists.asList("", "app/", projectHelper.getSourceRootPathList(project, event).toArray(new String[0]));
     }
 
     private VirtualFile getManifestFileFromPath(Project project, String path) {
