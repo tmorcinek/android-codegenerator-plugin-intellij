@@ -7,12 +7,12 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.morcinek.android.codegenerator.extractor.PackageExtractor;
 import com.morcinek.android.codegenerator.extractor.XMLPackageExtractor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Copyright 2014 Tomasz Morcinek. All rights reserved.
  */
-//FIXME needs to search for AndroidManifest under source roots
 public class PackageHelper {
 
     private final PackageExtractor packageExtractor = new XMLPackageExtractor();
@@ -21,7 +21,13 @@ public class PackageHelper {
 
     public String getPackageName(Project project, AnActionEvent event) {
         try {
-            for (String path : possiblePaths(project, event)) {
+            for (String path : possibleManifestPaths()) {
+                VirtualFile file = getManifestFileFromPath(project, path);
+                if (file != null && file.exists()) {
+                    return packageExtractor.extractPackageFromManifestStream(file.getInputStream());
+                }
+            }
+            for (String path : sourceRootPaths(project, event)) {
                 VirtualFile file = getManifestFileFromPath(project, path);
                 if (file != null && file.exists()) {
                     return packageExtractor.extractPackageFromManifestStream(file.getInputStream());
@@ -32,11 +38,19 @@ public class PackageHelper {
         return "";
     }
 
-    private List<String> possiblePaths(Project project, AnActionEvent event) {
-        return Lists.asList("", "app/", projectHelper.getSourceRootPathList(project, event).toArray(new String[0]));
+    private ArrayList<String> possibleManifestPaths() {
+        return Lists.newArrayList("", "app/", "app/src/main/", "src/main/", "res/");
+    }
+
+    private List<String> sourceRootPaths(Project project, AnActionEvent event) {
+        return projectHelper.getSourceRootPathList(project, event);
     }
 
     private VirtualFile getManifestFileFromPath(Project project, String path) {
-        return project.getBaseDir().findFileByRelativePath(path).findChild("AndroidManifest.xml");
+        VirtualFile folder = project.getBaseDir().findFileByRelativePath(path);
+        if (folder != null) {
+            return folder.findChild("AndroidManifest.xml");
+        }
+        return null;
     }
 }
