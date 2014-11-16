@@ -1,6 +1,7 @@
 package com.morcinek.android.codegenerator.plugin.codegenerator;
 
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.openapi.project.Project;
@@ -50,7 +51,11 @@ public class CodeGeneratorController {
     }
 
     private TextEditor getTextEditor(Project project, VirtualFile file) {
-        return (TextEditor) FileEditorManager.getInstance(project).getSelectedEditor(file);
+        FileEditor fileEditor = FileEditorManager.getInstance(project).getSelectedEditor(file);
+        if (fileEditor instanceof TextEditor) {
+            return (TextEditor) fileEditor;
+        }
+        return null;
     }
 
     private String getText(Editor editor) {
