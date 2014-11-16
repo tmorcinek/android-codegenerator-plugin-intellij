@@ -17,6 +17,7 @@
         <h2>Description</h2>
         Plugin parses xml file, and retrieves data about all the views that contain android:id attribute. <br/>
         Plugin collects information about view's type and id. Based on that, plugin generates fields, assignment, imports and methods. <br/>
+        Full project description on <a href="http://tmorcinek.github.io/android-codegenerator-plugin-intellij">github's information page</a>.
 
         <h2>Features</h2>
 
