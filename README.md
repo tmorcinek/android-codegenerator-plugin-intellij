@@ -26,6 +26,14 @@ You can download zip file from [latest release](https://github.com/tmorcinek/and
 Change notes
 -------
 
+<b>Version 1.4</b>
+<ul>
+    <li>ISSUE #7: Android Studio throwing error when Android Designer editor is open.</li>
+    <li>ISSUE #8: Source path's on windows are too long.</li>
+    <li>ISSUE #9: Error when creating file on windows .</li>
+    <li>ISSUE #10: Adding github.io page link to Plugin description.</li>
+</ul>
+
 <b>Version 1.3</b>
 <ul>
     <li>Support for IntelliJ IDEA 14.</li>
