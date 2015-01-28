@@ -7,6 +7,8 @@ Plugin for generation of Android code from XML files (layouts, menus).
 
 For more information please see [the website](http://tmorcinek.github.io/android-codegenerator-plugin-intellij)
 
+Or see the plugin in [jetbrains repository](https://plugins.jetbrains.com/plugin/7595?pr=idea).
+
 
 Core Library
 -------
