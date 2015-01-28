@@ -1,3 +1,5 @@
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-android--codegenerator--plugin--intellij-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1443)
+
 Android Studio/IntelliJ IDEA Plugin for Android code generation
 ================
 
