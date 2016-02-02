@@ -1,7 +1,7 @@
 <idea-plugin version="2" url="http://tmorcinek.github.io/android-codegenerator-plugin-intellij">
     <id>com.morcinek.android.codegenerator.plugin.intellij</id>
     <name>Android Code Generator</name>
-    <version>1.4</version>
+    <version>1.5</version>
     <vendor email="tomasz.morcinek@gmail.com" url="http://morcinek.co.uk">Tomasz Morcinek</vendor>
 
     <description><![CDATA[
@@ -39,6 +39,12 @@
     ]]></description>
 
     <change-notes><![CDATA[
+
+        <b>Version 1.5</b>
+        <ul>
+            <li>ISSUE #19: Code generation dialog box is out of the screen!
+            <li>ISSUE #13: Change Plugin name
+        </ul>
 
         <b>Version 1.4</b>
         <ul>

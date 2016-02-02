@@ -40,6 +40,12 @@ You can download zip file from [latest release](https://github.com/tmorcinek/and
 Change notes
 -------
 
+<b>Version 1.5</b>
+<ul>
+    <li>ISSUE #19: Code generation dialog box is out of the screen!
+    <li>ISSUE #13: Change Plugin name
+</ul>
+
 <b>Version 1.4</b>
 <ul>
     <li>ISSUE #7: Android Studio throwing error when Android Designer editor is open.</li>
