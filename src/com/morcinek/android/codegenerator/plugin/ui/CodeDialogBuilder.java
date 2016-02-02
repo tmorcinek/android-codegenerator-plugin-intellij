@@ -8,6 +8,7 @@ import com.intellij.openapi.ui.DialogBuilder;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.ui.CollectionComboBoxModel;
 import com.intellij.ui.JBColor;
+import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.components.JBTextField;
 
 import javax.swing.*;
@@ -34,8 +35,9 @@ public class CodeDialogBuilder {
         dialogBuilder.setTitle(title);
 
         JPanel centerPanel = new JPanel(new BorderLayout());
+
         codeArea = prepareCodeArea(producedCode);
-        centerPanel.add(codeArea, BorderLayout.CENTER);
+        centerPanel.add(new JBScrollPane(codeArea), BorderLayout.CENTER);
         dialogBuilder.setCenterPanel(centerPanel);
 
         topPanel = new JPanel(new GridLayout(0, 2));
