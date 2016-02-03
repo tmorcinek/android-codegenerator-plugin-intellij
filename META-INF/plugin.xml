@@ -134,6 +134,19 @@
                         class="com.morcinek.android.codegenerator.plugin.actions.MenuAction"
                         text="Menu" description="Generate Menu Code">
                 </action>
+                <separator/>
+                <action id="CodeGenerationPlugin.BActivityAction"
+                        class="com.morcinek.android.codegenerator.plugin.actions.butterknife.BActivityAction"
+                        text="Butterknife Activity" description="Generate Butterknife Activity Code">
+                </action>
+                <action id="CodeGenerationPlugin.BAdapterAction"
+                        class="com.morcinek.android.codegenerator.plugin.actions.butterknife.BAdapterAction"
+                        text="Butterknife Adapter" description="Generate Butterknife Adapter Code">
+                </action>
+                <action id="CodeGenerationPlugin.BFragmentAction"
+                        class="com.morcinek.android.codegenerator.plugin.actions.butterknife.BFragmentAction"
+                        text="Butterknife Fragment" description="Generate Butterknife Fragment Code">
+                </action>
             </group>
             <separator/>
             <add-to-group group-id="ProjectViewPopupMenu" anchor="after"
