@@ -40,6 +40,11 @@ You can download zip file from [latest release](https://github.com/tmorcinek/and
 Change notes
 -------
 
+<b>Version 1.6</b>
+<ul>
+    <li>ISSUE #11: Add Butter Knife support.
+</ul>
+
 <b>Version 1.5</b>
 <ul>
     <li>ISSUE #19: Code generation dialog box is out of the screen!
