@@ -24,6 +24,7 @@
         <p>There are several very useful features some of them are:</p>
 
         <ul>
+            <li>generating ButterKnife injections code for Activities, Fragments and Adapters</li>
             <li>generating Activity Class code from layout</li>
             <li>generating Fragment Class code from layout</li>
             <li>generating Adapter Class code from item layout</li>
